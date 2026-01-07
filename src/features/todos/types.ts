@@ -1,4 +1,4 @@
-export type TodoPriority = "LOW" | "MEDIUM" | "HIGH";
+export type TodoPriority = 'LOW' | 'MEDIUM' | 'HIGH';
 
 export interface Todo {
   id: string;
@@ -31,9 +31,25 @@ export interface TodosFilters {
   dateGte?: string;
   dateLte?: string;
   sort?: string;
-  order?: "asc" | "desc";
+  order?: 'asc' | 'desc';
 }
 
 export interface GetTodosParams extends TodosFilters {
   signal?: AbortSignal;
+}
+
+// MUTATION TYPE
+export interface ICreateTodoResponse {
+  id: string;
+  title: string;
+  completed: true;
+  date: Date;
+  priority: TodoPriority;
+}
+
+export interface ICreateTodoBody {
+  title: string;
+  completed: false;
+  date: Date;
+  priority: TodoPriority;
 }
