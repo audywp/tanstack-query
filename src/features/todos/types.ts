@@ -53,3 +53,8 @@ export interface ICreateTodoBody {
   date: Date;
   priority: TodoPriority;
 }
+
+export interface IInfiniteTodosResponse {
+  pageParams: number[];
+  pages: TodosListResponse[];
+}

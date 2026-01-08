@@ -29,6 +29,34 @@ export async function getTodos({
   return response.data;
 }
 
+export async function getInfiniteTodos({
+  page = 1,
+  limit = 10,
+  completed,
+  dateGte,
+  dateLte,
+  order = 'asc',
+  priority,
+  signal,
+  sort,
+}: GetTodosParams) {
+  const response = await api.get<TodosListResponse>('/todos', {
+    params: {
+      page,
+      limit,
+      completed,
+      priority,
+      dateGte,
+      dateLte,
+      sort,
+      order,
+    },
+    signal,
+  });
+
+  return response.data;
+}
+
 export async function createTodo({ title, completed, date, priority }: ICreateTodoBody) {
   const response = await api.post<ICreateTodoResponse>('/todos', {
     title,
@@ -39,3 +67,14 @@ export async function createTodo({ title, completed, date, priority }: ICreateTo
 
   return response.data;
 }
+
+export async function deleteTodo(id: string) {
+  const response = await api.delete(`/todos/${id}`);
+
+  return response.data;
+}
+
+// bikin apinya
+// lalu bikin hooksnya
+// invalidate hasil mutationnya
+// eksekusi mutationnya di ui.

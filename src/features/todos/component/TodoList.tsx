@@ -1,20 +1,25 @@
-import { useCreateTodo, useTodos } from '../hooks';
+import { useCreateTodo, useDeleteTodos, useInfiniteTodos } from '../hooks';
 
 export const TodoList = () => {
-  const { data, isLoading, isError } = useTodos({
+  const { isFetchingNextPage, hasNextPage, fetchNextPage, data, isLoading, isError } = useInfiniteTodos({
     page: 1,
-    limit: 10,
+    limit: 2,
   });
 
-  const { mutate } = useCreateTodo();
+  const { mutate: createTodoMutation } = useCreateTodo();
+  const { mutate: deleteTodoMutation } = useDeleteTodos();
 
   const onCreateTodo = () => {
-    mutate({
-      title: 'Assignment 5',
+    createTodoMutation({
+      title: 'Assignment 18',
       completed: false,
       date: new Date(),
       priority: 'HIGH',
     });
+  };
+
+  const onDeleteTodo = (id: string) => {
+    deleteTodoMutation(id);
   };
 
   if (isLoading) {
@@ -35,10 +40,26 @@ export const TodoList = () => {
         Create Todo
       </button>
       <ul>
-        {data?.data.todos.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
+        {data?.pages.map((page) =>
+          page.data.todos.map((todo) => (
+            <li
+              key={todo.id}
+              className='flex items-center gap-4'
+            >
+              <span>{todo.title}</span>
+              <button onClick={() => onDeleteTodo(todo.id)}>delete</button>
+            </li>
+          ))
+        )}
       </ul>
+
+      <button
+        disabled={!hasNextPage}
+        onClick={() => fetchNextPage()}
+        className='cursor-pointer bg-blue-200 rounded-md mt-2 text-black px-4 py-2'
+      >
+        {isFetchingNextPage ? 'Loading more...' : hasNextPage ? 'Load More' : 'No more todos'}
+      </button>
     </div>
   );
 };
