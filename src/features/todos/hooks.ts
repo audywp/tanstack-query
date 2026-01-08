@@ -39,6 +39,8 @@ export function useInfiniteTodos(filter: TodosFilters) {
     queryKey: ['infinite-todos', filter],
     queryFn: ({ queryKey, signal, pageParam }) => {
       const [, params] = queryKey;
+
+      // pageparams adalah properti khusus dari useInfiniteQuery untuk mengatur halaman saat ini
       return getInfiniteTodos({
         ...params,
         page: pageParam as number,
@@ -46,6 +48,7 @@ export function useInfiniteTodos(filter: TodosFilters) {
       });
     },
     getNextPageParam: (lastPage) => {
+      // getNextPageParam adalah fungsi khusus dari useInfiniteQuery untuk menentukan halaman berikutnya ada atau tidak.
       if (lastPage.data.hasNextPage) return lastPage.data.nextPage;
       return undefined;
     },

@@ -40,16 +40,24 @@ export const TodoList = () => {
         Create Todo
       </button>
       <ul>
-        {data?.pages.map((page) =>
-          page.data.todos.map((todo) => (
-            <li
-              key={todo.id}
-              className='flex items-center gap-4'
-            >
-              <span>{todo.title}</span>
-              <button onClick={() => onDeleteTodo(todo.id)}>delete</button>
-            </li>
-          ))
+        {/* useInfiniteTodos mengembalikan array pages dan setiap array pages baru ada response todos nya */}
+        {data?.pages.map(
+          (
+            page // array pages.
+          ) =>
+            page.data.todos.map(
+              (
+                todo // array todos di setiap pages.
+              ) => (
+                <li
+                  key={todo.id}
+                  className='flex items-center gap-4'
+                >
+                  <span>{todo.title}</span>
+                  <button onClick={() => onDeleteTodo(todo.id)}>delete</button>
+                </li>
+              )
+            )
         )}
       </ul>
 
